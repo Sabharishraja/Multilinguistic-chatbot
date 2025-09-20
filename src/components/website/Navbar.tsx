@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap, Settings, Globe } from 'lucide-react';
+import { Menu, X, GraduationCap, Settings, Globe, ChevronDown } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [language, setLanguage] = useState('en');
+  const [showLanguages, setShowLanguages] = useState(false);
   const location = useLocation();
 
   const navItems = [
@@ -16,41 +17,46 @@ const Navbar: React.FC = () => {
   ];
 
   const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'hi', name: 'हिंदी' },
-    { code: 'mr', name: 'मराठी' },
-    { code: 'te', name: 'తెలుగు' },
-    { code: 'ta', name: 'தமிழ்' },
-    { code: 'gu', name: 'ગુજરાતી' }
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'hi', name: 'हिंदी', flag: '🇮🇳' },
+    { code: 'mr', name: 'मराठी', flag: '🇮🇳' },
+    { code: 'te', name: 'తెలుగు', flag: '🇮🇳' },
+    { code: 'ta', name: 'தமிழ்', flag: '🇮🇳' },
+    { code: 'gu', name: 'ગુજરાતી', flag: '🇮🇳' }
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  const currentLanguage = languages.find(lang => lang.code === language);
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="glass-strong sticky top-0 z-50 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-600 rounded-lg">
-              <GraduationCap className="w-6 h-6 text-white" />
+          <Link to="/" className="flex items-center space-x-4 group">
+            <div className="p-3 bg-gradient-primary rounded-2xl shadow-large group-hover:scale-105 transition-transform duration-200">
+              <GraduationCap className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">TechEdu College</h1>
-              <p className="text-xs text-gray-500">Excellence in Education</p>
+              <h1 className="text-2xl font-display font-bold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                TechEdu College
+              </h1>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 font-medium">
+                Excellence in Education
+              </p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-2">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover-lift ${
                   isActive(item.path)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                    ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 shadow-soft'
+                    : 'text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-dark-800'
                 }`}
               >
                 {item.name}
@@ -59,39 +65,58 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Language Selector & Auth Links */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
+            {/* Language Dropdown */}
             <div className="relative">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="appearance-none bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <button
+                onClick={() => setShowLanguages(!showLanguages)}
+                className="flex items-center space-x-2 px-4 py-2 bg-neutral-100 dark:bg-dark-800 hover:bg-neutral-200 dark:hover:bg-dark-700 rounded-xl transition-colors focus-ring"
               >
-                {languages.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
-                    {lang.name}
-                  </option>
-                ))}
-              </select>
-              <Globe className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <span className="text-lg">{currentLanguage?.flag}</span>
+                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                  {currentLanguage?.name}
+                </span>
+                <ChevronDown className={`w-4 h-4 text-neutral-500 transition-transform ${showLanguages ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {showLanguages && (
+                <div className="absolute right-0 mt-2 w-48 card-glass shadow-large rounded-xl overflow-hidden animate-scale-in">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code);
+                        setShowLanguages(false);
+                      }}
+                      className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-neutral-100 dark:hover:bg-dark-700 transition-colors ${
+                        language === lang.code ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400' : 'text-neutral-700 dark:text-neutral-300'
+                      }`}
+                    >
+                      <span className="text-lg">{lang.flag}</span>
+                      <span className="text-sm font-medium">{lang.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             
             <Link
               to="/login"
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+              className="btn-ghost text-sm"
             >
               Login
             </Link>
             
             <Link
               to="/signup"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              className="btn-primary text-sm"
             >
               Sign Up
             </Link>
             
             <Link
               to="/admin-login"
-              className="flex items-center space-x-2 bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+              className="flex items-center space-x-2 px-4 py-2 bg-neutral-100 dark:bg-dark-800 hover:bg-neutral-200 dark:hover:bg-dark-700 rounded-xl transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300"
             >
               <Settings className="w-4 h-4" />
               <span>Admin</span>
@@ -99,10 +124,10 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-xl text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-dark-800 transition-colors focus-ring"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -111,45 +136,47 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden border-t border-gray-200">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="lg:hidden border-t border-neutral-200 dark:border-dark-700 animate-slide-down">
+            <div className="px-2 pt-4 pb-6 space-y-2">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+                  className={`block px-4 py-3 rounded-xl text-base font-medium transition-colors ${
                     isActive(item.path)
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                      ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
+                      : 'text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-neutral-100 dark:hover:bg-dark-800'
                   }`}
                 >
                   {item.name}
                 </Link>
               ))}
               
-              <div className="pt-4 border-t border-gray-200 mt-4">
-                <div className="px-3 py-2 space-y-3">
+              <div className="pt-4 border-t border-neutral-200 dark:border-dark-700 mt-4">
+                <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
+                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                      Language
+                    </label>
                     <select
                       value={language}
                       onChange={(e) => setLanguage(e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full input text-sm"
                     >
                       {languages.map((lang) => (
                         <option key={lang.code} value={lang.code}>
-                          {lang.name}
+                          {lang.flag} {lang.name}
                         </option>
                       ))}
                     </select>
                   </div>
                   
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-3">
                     <Link
                       to="/login"
                       onClick={() => setIsOpen(false)}
-                      className="flex-1 text-center text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
+                      className="flex-1 btn-ghost text-center"
                     >
                       Login
                     </Link>
@@ -157,7 +184,7 @@ const Navbar: React.FC = () => {
                     <Link
                       to="/signup"
                       onClick={() => setIsOpen(false)}
-                      className="flex-1 text-center bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                      className="flex-1 btn-primary text-center"
                     >
                       Sign Up
                     </Link>
@@ -166,7 +193,7 @@ const Navbar: React.FC = () => {
                   <Link
                     to="/admin-login"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center space-x-2 w-full bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                    className="flex items-center justify-center space-x-2 w-full px-4 py-3 bg-neutral-100 dark:bg-dark-800 hover:bg-neutral-200 dark:hover:bg-dark-700 rounded-xl transition-colors text-sm font-medium text-neutral-700 dark:text-neutral-300"
                   >
                     <Settings className="w-4 h-4" />
                     <span>Admin Dashboard</span>

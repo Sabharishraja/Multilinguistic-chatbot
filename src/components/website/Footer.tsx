@@ -10,7 +10,9 @@ import {
   Instagram, 
   Linkedin,
   Youtube,
-  ExternalLink
+  ExternalLink,
+  Heart,
+  Sparkles
 } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -42,56 +44,68 @@ const Footer: React.FC = () => {
   ];
 
   const socialLinks = [
-    { name: 'Facebook', icon: Facebook, url: 'https://facebook.com/techeducollege' },
-    { name: 'Twitter', icon: Twitter, url: 'https://twitter.com/techeducollege' },
-    { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/techeducollege' },
-    { name: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com/school/techeducollege' },
-    { name: 'YouTube', icon: Youtube, url: 'https://youtube.com/techeducollege' }
+    { name: 'Facebook', icon: Facebook, url: 'https://facebook.com/techeducollege', color: 'hover:text-blue-500' },
+    { name: 'Twitter', icon: Twitter, url: 'https://twitter.com/techeducollege', color: 'hover:text-sky-500' },
+    { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/techeducollege', color: 'hover:text-pink-500' },
+    { name: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com/school/techeducollege', color: 'hover:text-blue-600' },
+    { name: 'YouTube', icon: Youtube, url: 'https://youtube.com/techeducollege', color: 'hover:text-red-500' }
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gradient-to-br from-neutral-900 via-dark-900 to-neutral-800 text-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-900/10 to-secondary-900/10"></div>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500"></div>
+      
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* College Info */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center space-x-3 mb-6">
-              <div className="p-2 bg-blue-600 rounded-lg">
-                <GraduationCap className="w-6 h-6 text-white" />
+            <Link to="/" className="flex items-center space-x-4 mb-8 group">
+              <div className="p-3 bg-gradient-primary rounded-2xl shadow-large group-hover:scale-105 transition-transform duration-200">
+                <GraduationCap className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold">TechEdu College</h3>
-                <p className="text-sm text-gray-400">Excellence in Education</p>
+                <h3 className="text-2xl font-display font-bold group-hover:text-primary-400 transition-colors">
+                  TechEdu College
+                </h3>
+                <p className="text-sm text-neutral-400 font-medium">Excellence in Education</p>
               </div>
             </Link>
             
-            <p className="text-gray-300 mb-6 text-sm leading-relaxed">
+            <p className="text-neutral-300 mb-8 leading-relaxed">
               Empowering minds and shaping futures through innovative education, 
               cutting-edge research, and inclusive learning environments since 1999.
             </p>
             
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-gray-300">
-                  <p>123 Education Street</p>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-4">
+                <div className="p-2 bg-primary-600/20 rounded-lg">
+                  <MapPin className="w-5 h-5 text-primary-400 flex-shrink-0" />
+                </div>
+                <div className="text-sm text-neutral-300">
+                  <p className="font-medium">123 Education Street</p>
                   <p>Tech City, State 560001</p>
                   <p>India</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                <div className="text-sm text-gray-300">
+              <div className="flex items-center space-x-4">
+                <div className="p-2 bg-success-600/20 rounded-lg">
+                  <Phone className="w-5 h-5 text-success-400 flex-shrink-0" />
+                </div>
+                <div className="text-sm text-neutral-300">
                   <p>+91 80 1234 5678</p>
                   <p>+91 80 8765 4321</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                <div className="text-sm text-gray-300">
+              <div className="flex items-center space-x-4">
+                <div className="p-2 bg-accent-600/20 rounded-lg">
+                  <Mail className="w-5 h-5 text-accent-400 flex-shrink-0" />
+                </div>
+                <div className="text-sm text-neutral-300">
                   <p>info@techeducollege.edu.in</p>
                   <p>admissions@techeducollege.edu.in</p>
                 </div>
@@ -101,13 +115,13 @@ const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xl font-semibold mb-8 text-gradient">Quick Links</h4>
+            <ul className="space-y-4">
               {quickLinks.map((link, index) => (
                 <li key={index}>
                   <Link 
                     to={link.path}
-                    className="text-gray-300 hover:text-blue-400 transition-colors text-sm"
+                    className="text-neutral-300 hover:text-primary-400 transition-colors duration-200 hover:translate-x-1 transform inline-block"
                   >
                     {link.name}
                   </Link>
@@ -118,13 +132,13 @@ const Footer: React.FC = () => {
 
           {/* Student Services */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Student Services</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xl font-semibold mb-8 text-gradient">Student Services</h4>
+            <ul className="space-y-4">
               {studentServices.map((service, index) => (
                 <li key={index}>
                   <Link 
                     to={service.path}
-                    className="text-gray-300 hover:text-blue-400 transition-colors text-sm"
+                    className="text-neutral-300 hover:text-secondary-400 transition-colors duration-200 hover:translate-x-1 transform inline-block"
                   >
                     {service.name}
                   </Link>
@@ -135,18 +149,20 @@ const Footer: React.FC = () => {
 
           {/* Important Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Important Links</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xl font-semibold mb-8 text-gradient">Important Links</h4>
+            <ul className="space-y-4">
               {importantLinks.map((link, index) => (
                 <li key={index}>
                   <a 
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-blue-400 transition-colors text-sm flex items-center"
+                    className="text-neutral-300 hover:text-accent-400 transition-colors duration-200 flex items-center group"
                   >
-                    {link.name}
-                    <ExternalLink className="w-3 h-3 ml-1" />
+                    <span className="group-hover:translate-x-1 transform transition-transform">
+                      {link.name}
+                    </span>
+                    <ExternalLink className="w-3 h-3 ml-2 opacity-60 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
               ))}
@@ -156,43 +172,45 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Social Media & Bottom Bar */}
-      <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+      <div className="relative border-t border-neutral-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-6 md:space-y-0">
             {/* Social Links */}
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-400">Follow us:</span>
-              {socialLinks.map((social, index) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={index}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-blue-400 transition-colors"
-                    aria-label={social.name}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </a>
-                );
-              })}
+            <div className="flex items-center space-x-6">
+              <span className="text-neutral-400 font-medium">Follow us:</span>
+              <div className="flex items-center space-x-4">
+                {socialLinks.map((social, index) => {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={index}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`p-2 bg-neutral-800 hover:bg-neutral-700 rounded-xl text-neutral-400 ${social.color} transition-all duration-200 hover:scale-110 hover:-translate-y-1`}
+                      aria-label={social.name}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </a>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Admin Link */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-6 text-sm">
               <Link
                 to="/admin"
-                className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
+                className="text-neutral-400 hover:text-primary-400 transition-colors font-medium"
               >
                 Admin Dashboard
               </Link>
-              <span className="text-gray-600">|</span>
-              <button className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              <span className="text-neutral-600">|</span>
+              <button className="text-neutral-400 hover:text-secondary-400 transition-colors font-medium">
                 Privacy Policy
               </button>
-              <span className="text-gray-600">|</span>
-              <button className="text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              <span className="text-neutral-600">|</span>
+              <button className="text-neutral-400 hover:text-accent-400 transition-colors font-medium">
                 Terms of Service
               </button>
             </div>
@@ -201,14 +219,17 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Copyright */}
-      <div className="bg-gray-950 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between text-center md:text-left">
-            <p className="text-sm text-gray-400">
+      <div className="relative bg-neutral-950 border-t border-neutral-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between text-center md:text-left space-y-4 md:space-y-0">
+            <p className="text-neutral-400 flex items-center justify-center md:justify-start">
               © 2024 TechEdu College. All rights reserved.
             </p>
-            <p className="text-sm text-gray-400 mt-2 md:mt-0">
-              Designed with ❤️ for Smart Education Initiative
+            <p className="text-neutral-400 flex items-center justify-center md:justify-end">
+              <span>Designed with</span>
+              <Heart className="w-4 h-4 mx-2 text-red-500 animate-pulse-soft" />
+              <span>for Smart Education Initiative</span>
+              <Sparkles className="w-4 h-4 ml-2 text-primary-400" />
             </p>
           </div>
         </div>
